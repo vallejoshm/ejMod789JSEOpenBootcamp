@@ -1,0 +1,11 @@
+si paso por parámetro una interfaz estoy dando la posibilidad de pasar cualquier objeto
+que implemente esa interfaz, como por ej el método acelerar, en vez de pedirle como parámetro un 
+auto o una moto pido un vehiculo de esa manera puedo usar cualquier objeto que la 
+implemente
+
+front plugins de vs code 
+no pasar  por valor sino por para no copiar valores para no duplicar 
+
+para evitar las variables bandera (un booleano que me indica si hay o no algo en una lista por ejemplo) 
+en los bucles for puedo usar un else, siempre y cuando tambien utilice un break 
+si efectivamente encuentro lo que busco
