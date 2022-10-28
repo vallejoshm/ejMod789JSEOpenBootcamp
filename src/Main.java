@@ -1,12 +1,10 @@
 import java.io.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Vector;
+import java.util.*;
 
 import static funciones.FuncionesDatosComplejos.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         //Escribe el código que devuelva una cadena al revés.
         // Por ejemplo, la cadena "hola mundo", debe retornar "odnum aloh".
 
@@ -88,11 +86,37 @@ public class Main {
         try{
             InputStream in = new FileInputStream("C:\\Users\\Hernan\\Desktop\\Python\\notas.txt");
             PrintStream out = new PrintStream("copia.txt");
-
             copiarFichero(in, out);
+            in.close();
         }catch (FileNotFoundException e){
             System.out.println("Esto no funciona, " + e.getMessage());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
+        //Sorpréndenos creando un programa de tu elección que utilice InputStream, PrintStream, excepciones,
+        // un HashMap y un ArrayList, LinkedList o array.
+
+        //compra de herramientas manuales
+        //crear una entrada de datos mediante un scanner para ingresar nombre de herramienta y cantidad a comprar
+        //que ingrese esta info a un fichero nuevo y salga de la creacion de la lista cuando no quiera cargar mas datos
+        //desp que lea el fichero y cree n hashmap y que clave sea el nombre de la herramienta y su valor la cant
+        //y que se pueda ver la lista completa con posibilidad de modificarla o enviarla a una lista de proveedores
+
+        try {
+            PrintStream out = new PrintStream("PedidoHerramientas.txt");
+            cargarPedido(out);
+        }catch(IOException e) {
+            System.out.println("Esto no funciona: " + e.getMessage());
+        }
+        try {
+            InputStream in = new FileInputStream("PedidoHerramientas.txt");
+            HashMap<String, Integer> map = crearMap(in);
+            System.out.println("Mapa: " + map);
+        }catch (FileNotFoundException e){
+            System.out.println("Esto no funciona: " + e.getMessage());
+        }
+
 
 
     }

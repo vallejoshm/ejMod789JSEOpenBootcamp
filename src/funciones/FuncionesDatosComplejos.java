@@ -104,7 +104,6 @@ public class FuncionesDatosComplejos {
                 out.write(dato);
                 dato = in.read();
             }
-            System.out.println(out);
         }catch (FileNotFoundException e){
             System.out.println("Esto no funciona, " + e.getMessage());
         } catch (IOException e) {
@@ -112,5 +111,84 @@ public class FuncionesDatosComplejos {
         }
     }
 
+    public static void cargarPedido(PrintStream out) throws IOException {
+        String continuar;
+        boolean seguir = true;
+        do {
+            System.out.println("Ingrese el nombre de la herramienta solicitada: ");
+            Scanner producto = new Scanner(System.in);
+            String entradaProd = producto.nextLine();
+            System.out.println("Ingrese la cantidad deseada: ");
+            Scanner cantidad = new Scanner(System.in);
+            String entradaCant = cantidad.nextLine();
+            try {
+                Integer.parseInt(entradaCant);
+            }catch (Exception e){
+                System.out.println("Reingrese la cantidad en formato numérico");
+                continuar = "y";
+                continue;
+            }
+            String salto = "\n";
+            try {
+                out.write(entradaProd.getBytes());
+                out.write(salto.getBytes());
+                out.write(entradaCant.getBytes());
+                out.write(salto.getBytes());
+                do {
+                    System.out.println("¿Desea ingresar un nuevo producto?:(Y/N)");
+                    Scanner next = new Scanner(System.in);
+                    continuar = next.nextLine();
+                    seguir = !continuar.equalsIgnoreCase("y") && !continuar.equalsIgnoreCase("n");
+                } while (seguir);
+            } catch (IOException e) {
+                throw new IOException();
+            }
+        } while (continuar.equalsIgnoreCase("y"));
+    }
+
+    public static HashMap<String, Integer> crearMap(InputStream in) throws IOException {
+
+        HashMap<String, Integer> map = new HashMap<>();
+        try {
+            String clave = null;
+            Integer valor = null;
+            int finPedido = 0;
+
+            do {
+                ArrayList<Integer> listaDatos = new ArrayList<>();
+                int dato = in.read();
+                finPedido = dato;
+
+                while (dato != -1 && (char) dato != '\n') {
+                    listaDatos.add(dato);
+                    dato = in.read();
+                }
+
+                if (clave != null && listaDatos.size() > 0)
+                    valor = Integer.parseInt(construirClaveValor(listaDatos).toString());
+                else
+                    clave = construirClaveValor(listaDatos).toString();
+
+                if(clave.length() !=0 && valor != null) {
+                    map.put(clave, valor);
+                    clave = null;
+                    valor = null;
+                }
+            } while (finPedido != -1);
+
+        } catch (IOException e) {
+            throw new IOException();
+        }
+        return map;
+    }
+
+    private static StringBuilder construirClaveValor(ArrayList<Integer> lista) {
+
+        StringBuilder valorString = new StringBuilder();
+        for (int elem : lista) {
+            valorString.append((char) elem);
+        }
+        return valorString;
+    }
 }
 
